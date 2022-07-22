@@ -15,9 +15,12 @@ yarn add outscraper
 
 ## Initialization
 ```js
-const Outscraper = require('./index.js');
+const Outscraper = require('outscraper');
+// or
+import Outscraper from 'outscraper';
 
 let client = new Outscraper('SECRET_API_KEY');
+
 ```
 [Link to the profile page to create the API key](https://app.outscraper.com/profile)
 
