@@ -11,7 +11,7 @@ npm install outscraper --save
 yarn add outscraper
 ```
 
-[Link to the Ruby package page](https://rubygems.org/gems/outscraper)
+[Link to the NPM package page](https://www.npmjs.com/package/outscraper)
 
 ## Initialization
 ```js
