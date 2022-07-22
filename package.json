@@ -4,7 +4,7 @@
   "description": "The library provides convenient access to the Outscraper API. Allows using Outscraper's services from your code. See https://outscraper.com for details.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node index.test.js"
   },
   "repository": {
     "type": "git",
