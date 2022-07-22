@@ -1,0 +1,33 @@
+{
+  "name": "outscraper",
+  "version": "1.0.0",
+  "description": "The library provides convenient access to the Outscraper API. Allows using Outscraper's services from your code. See https://outscraper.com for details.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/outscraper/outscraper-node.git"
+  },
+  "keywords": [
+    "outscraper",
+    "google maps",
+    "google maps api",
+    "google maps scraper",
+    "google maps reviews",
+    "google maps reviews api",
+    "google maps scraper",
+    "scraper",
+    "webscraper",
+    "serpapi",
+    "google",
+    "serp api"
+  ],
+  "author": "Outscraper",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/outscraper/outscraper-node/issues"
+  },
+  "homepage": "https://github.com/outscraper/outscraper-node#readme"
+}
