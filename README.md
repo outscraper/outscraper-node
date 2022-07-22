@@ -7,7 +7,7 @@ The library provides convenient access to the [Outscraper API](https://app.outsc
 Install the package with:
 ```bash
 npm install outscraper --save
-# or
+# Or
 yarn add outscraper
 ```
 
@@ -16,7 +16,7 @@ yarn add outscraper
 ## Initialization
 ```js
 const Outscraper = require('outscraper');
-// or
+// Or using ES modules:
 import Outscraper from 'outscraper';
 
 let client = new Outscraper('SECRET_API_KEY');
