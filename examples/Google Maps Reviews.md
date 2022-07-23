@@ -45,21 +45,31 @@ client.googleMapsReviewsV3(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], sort='newest', cutof
 
 // Scrap Places Reviews by Place Ids
 client.googleMapsReviewsV3(
-    ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
-    reviewsLimit=20, // limit of reviews per each place
-    limit=1 // limit of palces per each query
+  ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
+  reviewsLimit=20, // limit of reviews per each place
+  limit=1 // limit of palces per each query
 ).then(response => {
-    console.log(response);
+  response.forEach(place => {
+    console.log('--------------------');
+    console.log('name: ', place.name);
+    place.reviews_data.forEach(review => {
+      console.log('review: ', review.review_text);
+    });
+  });
 });
 
 // Scrap Only New Reviews
 client.googleMapsReviewsV3(
-    ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
-    reviewsLimit=100,
-    limit=1,
-    sort='newest',
-    cutoff=1654596109, // the maximum timestamp value for reviews (oldest review you want to extract). Can be used to scrape only the new reviews since your latest update
+  ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
+  reviewsLimit=100,
+  limit=1,
+  sort='newest',
+  cutoff=1654596109, // the maximum timestamp value for reviews (oldest review you want to extract). Can be used to scrape only the new reviews since your latest update
 ).then(response => {
-    console.log(response);
+  response.forEach(place => {
+    console.log('--------------------');
+    console.log('name: ', place.name);
+    console.log('new reviews: ', place.reviews_data.length);
+  });
 });
 ```
