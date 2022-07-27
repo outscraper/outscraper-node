@@ -28,7 +28,7 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ```js
 // Get reviews of the specific place by id
-client.googleMapsReviewsV3(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
+client.googleMapsReviewsV3(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
     console.log(response);
 });
 

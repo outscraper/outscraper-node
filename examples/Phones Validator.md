@@ -27,7 +27,7 @@ let client = new Outscraper('SECRET_API_KEY');
 ## Usage
 
 ```js
-// Search contacts from website:
+// Get information about the phone number:
 client.phonesEnricher(['12812368208']).then(response => {
    console.log(response);
 });;

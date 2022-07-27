@@ -109,7 +109,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async phonesEnricher(query,) {
+  async phonesEnricher(query) {
     const response = await this.getAPIRequest('/phones-enricher', {
       query: toArray(query),
       async: false,

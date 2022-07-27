@@ -26,7 +26,7 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ## Usage
 
-```python
+```js
 # Search contacts from website:
 client.emailsAndContacts(['outscraper.com']).then(response => {
     console.log(response);
