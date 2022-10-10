@@ -28,17 +28,17 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ```js
 // Search for businesses in specific locations:
-client.googleMapsSearchV2(['restaurants brooklyn usa'], limit=20, language='en', region='us').then(response => {
+client.googleMapsSearch(['restaurants brooklyn usa'], limit=20, language='en', region='us').then(response => {
   console.log(response);
 });
 
 // Get data of the specific place by id
-client.googleMapsSearchV2(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], language='en').then(response => {
+client.googleMapsSearch(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], language='en').then(response => {
   console.log(response);
 });
 
 // Scrap Places by Two Queries
-client.googleMapsSearchV2(
+client.googleMapsSearch(
   ['restaurants brooklyn usa', 'bars brooklyn usa'],
   limit=50, // limit of palces per each query
   language='en',
@@ -57,7 +57,7 @@ client.googleMapsSearchV2(
 
 
 // Scrap Places by Place Ids
-client.googleMapsSearchV2(
+client.googleMapsSearch(
   ["ChIJ8ccnM7dbwokRy-pTMsdgvS4", "ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
   limit=1, // limit of palces per each query
 ).then(response => {

@@ -28,23 +28,23 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ```js
 // Get reviews of the specific place by id
-client.googleMapsReviewsV3(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
+client.googleMapsReviews(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
     console.log(response);
 });
 
 // Get reviews for places found by search query
-client.googleMapsReviewsV3(['Memphis Seoul brooklyn usa'], reviewsLimit=20, limit=20, language='en').then(response => {
+client.googleMapsReviews(['Memphis Seoul brooklyn usa'], reviewsLimit=20, limit=20, language='en').then(response => {
     console.log(response);
 });
 
 // Get only new reviews during last 24 hours
 const yesterdayTimestamp = 1657980986
-client.googleMapsReviewsV3(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], sort='newest', cutoff=yesterdayTimestamp, reviewsLimit=100, language='en').then(response => {
+client.googleMapsReviews(['ChIJrc9T9fpYwokRdvjYRHT8nI4'], sort='newest', cutoff=yesterdayTimestamp, reviewsLimit=100, language='en').then(response => {
     console.log(response);
 });
 
 // Scrap Places Reviews by Place Ids
-client.googleMapsReviewsV3(
+client.googleMapsReviews(
   ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
   reviewsLimit=20, // limit of reviews per each place
   limit=1 // limit of palces per each query
@@ -59,7 +59,7 @@ client.googleMapsReviewsV3(
 });
 
 // Scrap Only New Reviews
-client.googleMapsReviewsV3(
+client.googleMapsReviews(
   ["ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
   reviewsLimit=100,
   limit=1,

@@ -28,23 +28,23 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ```js
 // Search for businesses in specific locations:
-client.googleMapsSearchV2(['restaurants brooklyn usa'], limit=20, language='en', region='us').then(response => {
+client.googleMapsSearch(['restaurants brooklyn usa'], limit=20, language='en', region='us').then(response => {
     console.log(response);
 });
 
 // Or using ES modules and async/await:
 (async () => {
-  const response = await client.googleMapsSearchV2(['restaurants brooklyn usa'], limit=20, language='en', region='us');
+  const response = await client.googleMapsSearch(['restaurants brooklyn usa'], limit=20, language='en', region='us');
   console.log(response);
 })();
 
 // Get data of the specific place by id
-client.googleMapsSearchV2(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], language='en').then(response => {
+client.googleMapsSearch(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], language='en').then(response => {
     console.log(response);
 });
 
 // Get reviews of the specific place by id
-client.googleMapsReviewsV3(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
+client.googleMapsReviews(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, language='en').then(response => {
     console.log(response);
 });
 

@@ -28,7 +28,7 @@ let client = new Outscraper('SECRET_API_KEY');
 
 ```js
 // Search for SERP results:
-client.googleSearchV3(['buy iphone 13 TX'], language='en', region='us').then(response => {
+client.googleSearch(['buy iphone 13 TX'], language='en', region='us').then(response => {
    console.log(response);
 });
 ```

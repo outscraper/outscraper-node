@@ -46,18 +46,6 @@ class Outscraper {
   }
 
   async googleSearch(query, pagesPerQuery = 1, uule = '', language = 'en', region = null) {
-    const response = await this.getAPIRequest('/google-search-v2', {
-      query: toArray(query),
-      pagesPerQuery,
-      uule,
-      language,
-      region,
-      async: false,
-    });
-    return response['data'];
-  }
-
-  async googleSearchV3(query, pagesPerQuery = 1, uule = '', language = 'en', region = null) {
     const response = await this.getAPIRequest('/google-search-v3', {
       query: toArray(query),
       pagesPerQuery,
@@ -69,7 +57,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsSearchV2(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false) {
+  async googleMapsSearch(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false) {
     const response = await this.getAPIRequest('/maps/search-v2', {
       query: toArray(query),
       language,
@@ -82,7 +70,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsReviewsV3(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null) {
+  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null) {
     const response = await this.getAPIRequest('/maps/reviews-v3', {
       query: toArray(query),
       reviewsLimit,
