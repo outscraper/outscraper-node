@@ -57,7 +57,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsSearch(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false) {
+  async googleMapsSearch(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false, enrichment = null) {
     const response = await this.getAPIRequest('/maps/search-v2', {
       query: toArray(query),
       language,
@@ -65,6 +65,7 @@ class Outscraper {
       organizationsPerQueryLimit: limit,
       skipPlaces: skip,
       dropDuplicates,
+      enrichment: enrichment ? toArray(enrichment) : null,
       async: false,
     });
     return response['data'];

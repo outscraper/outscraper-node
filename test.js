@@ -1,7 +1,7 @@
 const Outscraper = require('./index');
 // import Outscraper from 'outscraper';
 
-let client = new Outscraper('YXV0aDB8NjAyMDFmODYwOTQ5M2UwMDZhOGM4YjZhfDhkMjQ2NDQ1Nzc');
+let client = new Outscraper('YXV0aDB8NjAyMDFmODYwOTQ5M2UwMDZhOGM4YjZhfDg3ZmE1Mjc0ZTk');
 
 // Scrap Places by Two Queries
 // client.googleMapsSearch(['restaurants brooklyn usa'], limit=20, language='en', region='us'
@@ -11,14 +11,20 @@ let client = new Outscraper('YXV0aDB8NjAyMDFmODYwOTQ5M2UwMDZhOGM4YjZhfDhkMjQ2NDQ
 // });
 
 client.googleMapsSearch(
-  ["ChIJ8ccnM7dbwokRy-pTMsdgvS4", "ChIJN5X_gWdZwokRck9rk2guJ1M", "ChIJxWLy8DlawokR1jvfXUPSTUE"],
-  limit=1, // limit of palces per each query
+  ["bars ny usa"],
+  limit=10, // limit of palces per each query
+  language='en',
+  region='US',
+  skip=0,
+  dropDuplicates=false,
+  enrichment=['domains_service', 'emails_validator_service']
 ).then(response => {
   response.forEach(queryPlaces => {
     queryPlaces.forEach(place => {
       console.log('--------------------');
       console.log('name: ', place.name);
       console.log('place_id: ', place.place_id);
+      console.log('name: ', place);
     });
   });
 });
