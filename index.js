@@ -57,7 +57,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsSearch(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false) {
+  async googleMapsSearch(query, limit = 20, language = 'en', region = null, skip = 0, dropDuplicates = false, extractContacts = false) {
     const response = await this.getAPIRequest('/maps/search-v2', {
       query: toArray(query),
       language,
@@ -66,6 +66,7 @@ class Outscraper {
       skipPlaces: skip,
       dropDuplicates,
       async: false,
+      extractContacts: extractContacts
     });
     return response['data'];
   }
