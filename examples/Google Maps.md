@@ -3,6 +3,8 @@
 The library provides real-time access to the places from Google Maps via [Outscraper API](https://app.outscraper.com/api-docs#tag/Google-Maps).
 It allows easy scraping of [businesses information](https://outscraper.com/google-maps-scraper/#dictionary) from Google Maps.
 
+![screencast](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWVjMGIxNjlmZGMwYjAwMzc5M2QxZjI5ZmIzNzc0ZWQxYWQ2M2Q2ZiZjdD1n/2Z85rUMT0D9e8qslj8/giphy.gif)
+
 ## Installation
 
 Install the package with:
