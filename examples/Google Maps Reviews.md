@@ -7,6 +7,8 @@ It allows scraping all the reviews from any place on Google Maps within seconds.
 - Real time data scraping with response time less than 3s
 - Sort, skip, ignore, cutoff, and other advanced parameters
 
+![screencast](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWVjMGIxNjlmZGMwYjAwMzc5M2QxZjI5ZmIzNzc0ZWQxYWQ2M2Q2ZiZjdD1n/2Z85rUMT0D9e8qslj8/giphy.gif)
+
 ## Installation
 
 Install the package with:
