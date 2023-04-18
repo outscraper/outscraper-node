@@ -2,6 +2,8 @@
 
 The library provides convenient access to the [Outscraper API](https://app.outscraper.com/api-docs) from applications written in server-side JavaScript. Allows using [Outscraper's services](https://outscraper.com/services/) from your code.
 
+![screencast](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNWVjMGIxNjlmZGMwYjAwMzc5M2QxZjI5ZmIzNzc0ZWQxYWQ2M2Q2ZiZjdD1n/2Z85rUMT0D9e8qslj8/giphy.gif)
+
 ## Installation
 
 Install the package with:
