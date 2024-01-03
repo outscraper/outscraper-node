@@ -90,9 +90,10 @@ class Outscraper {
     return response['data'];
   }
 
-  async emailsAndContacts(query) {
+  async emailsAndContacts(query, preferredContacts = null) {
     const response = await this.getAPIRequest('/emails-and-contacts', {
       query: toArray(query),
+      preferredContacts: preferredContacts ? toArray(preferredContacts) : null,
       async: false,
     });
     return response['data'];
