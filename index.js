@@ -71,7 +71,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null) {
+  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null, lastPaginationId = null) {
     const response = await this.getAPIRequest('/maps/reviews-v3', {
       query: toArray(query),
       reviewsLimit,
@@ -83,6 +83,7 @@ class Outscraper {
       reviewsQuery,
       cutoffRating,
       ignoreEmpty,
+      lastPaginationId,
       language,
       region,
       async: false,
