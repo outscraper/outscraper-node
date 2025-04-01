@@ -29,5 +29,9 @@
   "bugs": {
     "url": "https://github.com/outscraper/outscraper-node/issues"
   },
-  "homepage": "https://github.com/outscraper/outscraper-node#readme"
+  "homepage": "https://github.com/outscraper/outscraper-node#readme",
+  "devDependencies": {
+    "@types/node": "^22.13.16",
+    "typescript": "^5.8.2"
+  }
 }
