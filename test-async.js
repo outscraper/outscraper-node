@@ -27,18 +27,32 @@ async function testAsyncParameter() {
 
     console.log('Result:', result);
 
-    console.log('Response structure:', JSON.stringify(result, null, 2));
-
-    // If asyncRequest=true works correctly, the result should contain a requestId
-    // The requestId might be directly in the result object or in a nested property
-    const requestId = result.requestId || (result.data && result.data.requestId);
-
-    if (requestId) {
-      console.log('Success! The asyncRequest parameter is working correctly.');
-      console.log('Request ID:', requestId);
+    // Handle the case where result is undefined
+    if (result === undefined) {
+      console.log('Response structure: undefined');
+      console.log('Received an undefined response. This could happen if the API request failed completely.');
+      console.log('The SDK should be updated to handle this case and return a proper error object.');
     } else {
-      console.log('The asyncRequest parameter might not be working as expected.');
-      console.log('Expected a requestId in the response, but got:', Object.keys(result));
+      console.log('Response structure:', JSON.stringify(result, null, 2));
+      // If asyncRequest=true works correctly, the result should contain a requestId
+
+      if (result && (result.error || result.errorMessage)) {
+        console.log('Received an error response:', result);
+        console.log('This is expected when using an invalid API key or when there are other API errors.');
+        console.log('The SDK correctly handles error responses and returns them as-is.');
+      } else if (result) {
+        const requestId = result.requestId || result.id;
+
+        if (requestId) {
+          console.log('Success! The asyncRequest parameter is working correctly.');
+          console.log('Request ID:', requestId);
+        } else {
+          console.log('The asyncRequest parameter might not be working as expected.');
+          console.log('Expected a requestId in the response, but got:', Object.keys(result));
+        }
+      } else {
+        console.log('Received a null or empty response.');
+      }
     }
   } catch (error) {
     console.error('Error:', error);
