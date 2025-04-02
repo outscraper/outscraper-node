@@ -1,3 +1,5 @@
+export {};
+
 const Outscraper = require('./index');
 
 const outscraper = new Outscraper('YOUR_API_KEY');

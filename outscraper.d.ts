@@ -41,7 +41,8 @@ declare module 'outscraper' {
       language?: string,
       region?: string | null,
       reviewsQuery?: string | null,
-      lastPaginationId?: string | null
+      lastPaginationId?: string | null,
+      asyncRequest?: boolean
     ): Promise<any>;
     emailsAndContacts(
       query: string | string[],

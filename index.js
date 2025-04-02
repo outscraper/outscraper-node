@@ -14,7 +14,7 @@ class Outscraper {
         hostname: this.apiHostname,
         port: '443',
         path: path + '?' + querystring.stringify(removeEmpty(parameters)),
-        headers : {'X-API-KEY': this.apiKey, 'client': 'Node SDK'}
+        headers: { 'X-API-KEY': this.apiKey, 'client': 'Node SDK' }
       }, (res) => {
         res.setEncoding('utf8');
         let responseBody = '';
@@ -42,7 +42,7 @@ class Outscraper {
   }
 
   async getRequestArchive(requestId) {
-    return await this.getAPIRequest(f`/requests/${requestId}`, { type });
+    return await this.getAPIRequest(`/requests/${requestId}`, {});
   }
 
   async googleSearch(query, pagesPerQuery = 1, uule = '', language = 'en', region = null) {
@@ -71,7 +71,7 @@ class Outscraper {
     return response['data'];
   }
 
-  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null, lastPaginationId = null) {
+  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null, lastPaginationId = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/maps/reviews-v3', {
       query: toArray(query),
       reviewsLimit,
@@ -86,9 +86,9 @@ class Outscraper {
       lastPaginationId,
       language,
       region,
-      async: false,
+      async: asyncRequest,
     });
-    return response['data'];
+    return asyncRequest ? response : response['data'];
   }
 
   async emailsAndContacts(query, preferredContacts = null) {

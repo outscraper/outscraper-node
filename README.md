@@ -50,6 +50,30 @@ client.googleMapsReviews(['rChIJrc9T9fpYwokRdvjYRHT8nI4'], reviewsLimit=20, lang
     console.log(response);
 });
 
+// Get reviews of the specific place by id using async mode
+client.googleMapsReviews(
+    ['rChIJrc9T9fpYwokRdvjYRHT8nI4'],
+    reviewsLimit=20,
+    limit=1,
+    sort='most_relevant',
+    skip=0,
+    start=null,
+    cutoff=null,
+    cutoffRating=null,
+    ignoreEmpty=false,
+    language='en',
+    region=null,
+    reviewsQuery=null,
+    lastPaginationId=null,
+    asyncRequest=true // Enable async mode
+).then(response => {
+    console.log('Request ID:', response.requestId);
+    // You can use the requestId to check the status of the request later
+    client.getRequestArchive(response.requestId).then(status => {
+        console.log('Request Status:', status);
+    });
+});
+
 // Search contacts from website
 client.emailsAndContacts(['outscraper.com']).then(response => {
     console.log(response);
