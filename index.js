@@ -88,7 +88,17 @@ class Outscraper {
       region,
       async: asyncRequest,
     });
-    return asyncRequest ? response : response['data'];
+    if (asyncRequest) {
+      if (response.requestId) {
+        return response;
+      } else if (response.data && response.data.requestId) {
+        return { ...response, requestId: response.data.requestId };
+      } else {
+        return response;
+      }
+    } else {
+      return response['data'];
+    }
   }
 
   async emailsAndContacts(query, preferredContacts = null) {

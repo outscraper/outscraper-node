@@ -7,6 +7,11 @@ declare module 'outscraper' {
     data: T;
   }
 
+  export interface AsyncRequestResponse {
+    requestId: string;
+    [key: string]: any;
+  }
+
   export class Outscraper {
     constructor(apiKey: string);
 
@@ -43,7 +48,7 @@ declare module 'outscraper' {
       reviewsQuery?: string | null,
       lastPaginationId?: string | null,
       asyncRequest?: boolean
-    ): Promise<any>;
+    ): Promise<AsyncRequestResponse | any>;
     emailsAndContacts(
       query: string | string[],
       preferredContacts?: string | string[] | null

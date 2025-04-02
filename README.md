@@ -67,10 +67,9 @@ client.googleMapsReviews(
     lastPaginationId=null,
     asyncRequest=true // Enable async mode
 ).then(response => {
-    console.log('Request ID:', response.requestId);
     // You can use the requestId to check the status of the request later
     client.getRequestArchive(response.requestId).then(status => {
-        console.log('Request Status:', status);
+        // Process the status and data here
     });
 });
 
