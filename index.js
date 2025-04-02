@@ -38,15 +38,27 @@ class Outscraper {
   }
 
   handleAsyncResponse(response, asyncRequest) {
-    if (!asyncRequest) {
-      return response.data;
+    if (!response) {
+      return { error: 'Empty response received', response };
     }
 
     if (response.error || response.errorMessage) {
       return response;
     }
 
-    return { ...response, id: response.id || response.data?.id };
+    if (!asyncRequest) {
+      return response.data ?? response;
+    }
+
+    if (response.id && response.results_location) {
+      return {
+        status: response.status ?? 'Pending',
+        id: response.id,
+        results_location: response.results_location
+      };
+    }
+
+    return { error: 'Invalid async response structure', response };
   }
 
   async getRequestsHistory(type = 'running') {
@@ -57,7 +69,7 @@ class Outscraper {
     return await this.getAPIRequest(`/requests/${requestId}`, {});
   }
 
-  async googleSearch(query, pagesPerQuery = 1, uule = '', language = 'en', region = null, asyncRequest = true) {
+  async googleSearch(query, pagesPerQuery = 1, uule = '', language = 'en', region = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/google-search-v3', {
       query: toArray(query),
       pagesPerQuery,
@@ -83,39 +95,28 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async googleMapsReviews(query, reviewsLimit = 10, limit = 1, sort = 'most_relevant', skip = 0, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, language = 'en', region = null, reviewsQuery = null, lastPaginationId = null, asyncRequest = true) {
+  async googleMapsReviews(query, reviewsLimit = 100, reviewsQuery = null, limit = 1, sort = 'most_relevant', lastPaginationId = null, start = null, cutoff = null, cutoffRating = null, ignoreEmpty = false, source = 'google', language = 'en', region = null, fields = '', asyncRequest = false) {
     const response = await this.getAPIRequest('/maps/reviews-v3', {
       query: toArray(query),
       reviewsLimit,
+      reviewsQuery,
       limit,
       sort,
-      skip,
+      lastPaginationId,
       start,
       cutoff,
-      reviewsQuery,
       cutoffRating,
       ignoreEmpty,
-      lastPaginationId,
+      source,
       language,
       region,
+      fields: fields,
       async: asyncRequest,
     });
-    if (asyncRequest) {
-      if (response.error || response.errorMessage) {
-        return response;
-      } else if (response.id) {
-        return response;
-      } else if (response.data && response.data.id) {
-        return { ...response, id: response.data.id };
-      } else {
-        return response;
-      }
-    } else {
-      return response['data'];
-    }
+    return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async emailsAndContacts(query, preferredContacts = null, asyncRequest = true) {
+  async emailsAndContacts(query, preferredContacts = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/emails-and-contacts', {
       query: toArray(query),
       preferredContacts: preferredContacts ? toArray(preferredContacts) : null,
@@ -124,7 +125,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async phonesEnricher(query, asyncRequest = true) {
+  async phonesEnricher(query, asyncRequest = false) {
     const response = await this.getAPIRequest('/phones-enricher', {
       query: toArray(query),
       async: asyncRequest,
@@ -132,18 +133,18 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async companyInsights(query, enrichments = ['company_insights_service'], fields = '', asyncRequest = true) {
-    const response = await this.getAPIRequest('/companies', {
+  async companyInsights(query, fields = '', asyncRequest = false, enrichments = []) {
+    const response = await this.getAPIRequest('/company-insights', {
       query: toArray(query),
-      enrichment: toArray(enrichments),
       fields,
+      enrichments: toArray(enrichments),
       async: asyncRequest,
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async validateEmails(query, asyncRequest = true) {
-    const response = await this.getAPIRequest('/emails-validator', {
+  async validateEmails(query, asyncRequest = false) {
+    const response = await this.getAPIRequest('/email-validator', {
       query: toArray(query),
       async: asyncRequest,
     });
@@ -164,23 +165,11 @@ class Outscraper {
       webhook: options.webhook || undefined,
     };
 
-    const response = await this.getAPIRequest('/google-maps-photos', params);
-    if (options.async) {
-      if (response.error || response.errorMessage) {
-        return response;
-      } else if (response.id) {
-        return response;
-      } else if (response.data && response.data.id) {
-        return { ...response, id: response.data.id };
-      } else {
-        return response;
-      }
-    } else {
-      return response['data'];
-    }
+    const response = await this.getAPIRequest('/maps/photos-v3', params);
+    return this.handleAsyncResponse(response, options.async);
   }
 
-  async trustpilot(query, enrichment = [], fields = '', asyncRequest = true, ui = false, webhook = '') {
+  async trustpilot(query, enrichment = [], fields = '', asyncRequest = false, ui = false, webhook = '') {
     const response = await this.getAPIRequest('/trustpilot', {
       query: toArray(query),
       enrichment: enrichment ? toArray(enrichment) : [],
@@ -192,11 +181,10 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async trustpilotSearch(query, limit = 100, skip = 0, enrichment = [], fields = '', asyncRequest = true, ui = false, webhook = '') {
-    const queryArray = Array.isArray(query) ? query : [query];
+  async trustpilotSearch(query, limit = 100, skip = 0, enrichment = [], fields = '', asyncRequest = false, ui = false, webhook = '') {
 
     const parameters = {
-      query: queryArray,
+      query: toArray(query),
       limit,
       skip,
       enrichment: enrichment.length ? enrichment : [],
@@ -210,11 +198,10 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async trustpilotReviews(query, limit = 100, languages = 'default', sort = '', cutoff = null, fields = '', asyncRequest = true, ui = false, webhook = '') {
-    const queryArray = Array.isArray(query) ? query : [query];
+  async trustpilotReviews(query, limit = 100, languages = 'default', sort = '', cutoff = null, fields = '', asyncRequest = false, ui = false, webhook = '') {
 
     const parameters = {
-      query: queryArray,
+      query: toArray(query),
       limit,
       languages,
       sort,
@@ -225,15 +212,13 @@ class Outscraper {
       webhook,
     };
 
-    const response = await this.getAPIRequest('/trustpilot-reviews', parameters);
+    const response = await this.getAPIRequest('/trustpilot/reviews', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async youtubeComments(query, perQuery = 100, language = 'en', region = '', fields = '', asyncRequest = true, ui = false, webhook = '') {
-    const queryArray = Array.isArray(query) ? query : [query];
-
+  async youtubeComments(query, perQuery = 100, language = 'en', region = '', fields = '', asyncRequest = false, ui = false, webhook = '') {
     const parameters = {
-      query: queryArray,
+      query: toArray(query),
       perQuery,
       language,
       region,
@@ -248,11 +233,9 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async yelpReviews(query, limit = 100, cursor = '', sort = 'relevance_desc', cutoff = '', fields = '', asyncRequest = true, ui = false, webhook = '') {
-    const queryArray = Array.isArray(query) ? query : [query];
-
+  async yelpReviews(query, limit = 100, cursor = '', sort = 'relevance_desc', cutoff = '', fields = '', asyncRequest = false, ui = false, webhook = '') {
     const parameters = {
-      query: queryArray,
+      query: toArray(query),
       limit,
       cursor,
       sort,
@@ -263,52 +246,50 @@ class Outscraper {
       webhook,
     };
 
-    const response = await this.getAPIRequest('/yelp-reviews', parameters);
+    const response = await this.getAPIRequest('/yelp/reviews', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async phoneIdentityFinder(query, asyncRequest = true) {
+  async phoneIdentityFinder(query, asyncRequest = false) {
     const parameters = {
       query: Array.isArray(query) ? query : [query],
       async: asyncRequest
     };
-    const response = await this.getAPIRequest('/phone-identity-finder', parameters);
+    const response = await this.getAPIRequest('/whitepages-phones', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async addressScraper(query, asyncRequest = true) {
+  async addressScraper(query, asyncRequest = false) {
     const parameters = {
       query: Array.isArray(query) ? query : [query],
       async: asyncRequest
     };
-    const response = await this.getAPIRequest('/address-identity', parameters);
+    const response = await this.getAPIRequest('/whitepages-addresses', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
 
   }
 
-  async reverseGeocoding(query, asyncRequest = true) {
+  async reverseGeocoding(query, asyncRequest = false) {
     const parameters = {
       query: Array.isArray(query) ? query : [query],
       async: asyncRequest
     };
-    const response = await this.getAPIRequest('/reverse/geocode', parameters);
+    const response = await this.getAPIRequest('/reverse-geocoding', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async geocoding(query, asyncRequest = true) {
+  async geocoding(query, asyncRequest = false) {
     const parameters = {
       query: Array.isArray(query) ? query : [query],
       async: asyncRequest
     };
-    const response = await this.getAPIRequest('/geocode', parameters);
+    const response = await this.getAPIRequest('/geocoding', parameters);
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async getGlassdoorReviews(query, limit = 100, sort = 'DATE', cutoff = null, asyncRequest = true) {
-    const queryArray = Array.isArray(query) ? query : [query];
-
+  async getGlassdoorReviews(query, limit = 100, sort = 'DATE', cutoff = null, asyncRequest = false) {
     const parameters = {
-      query: queryArray,
+      query: toArray(query),
       limit: limit,
       sort: sort,
       cutoff: cutoff,
@@ -318,12 +299,13 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async appStoreReviews(query, perQuery = 100, limit = 100, sort = 'mosthelpful', asyncRequest = true) {
+  async appStoreReviews(query, limit = 100, sort = 'mosthelpful', cutoff = null, fields = '', asyncRequest = false) {
     const parameters = {
       query: toArray(query),
-      perQuery,
       limit,
       sort,
+      cutoff,
+      fields,
       async: asyncRequest,
     };
     const response = await this.getAPIRequest('/appstore/reviews', parameters)
