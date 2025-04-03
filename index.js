@@ -50,7 +50,7 @@ class Outscraper {
       return response.data ?? response;
     }
 
-    if (response.id && response.results_location) {
+    if (response) {
       return {
         status: response.status ?? 'Pending',
         id: response.id,
