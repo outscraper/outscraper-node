@@ -8,25 +8,54 @@ declare module 'outscraper' {
   }
 
   export interface AsyncResponse {
-    requestId?: string;
+    status?: string;
+    id?: string;
+    results_location?: string;
     error?: string;
     errorMessage?: string;
     data?: any;
     [key: string]: any;
   }
 
+  export interface GoogleMapsPhotosOptions {
+    photosLimit?: number;
+    limit?: number;
+    tag?: string;
+    language?: string;
+    region?: string;
+    fields?: string;
+    async?: boolean;
+    ui?: boolean;
+    webhook?: string;
+  }
+
   export class Outscraper {
     constructor(apiKey: string);
+    getAPIRequest(path: string, parameters: RequestParams): Promise<any>;
+    handleAsyncResponse(response: any, asyncRequest: boolean): any | AsyncResponse;
 
     getRequestsHistory(type?: string): Promise<any>;
     getRequestArchive(requestId: string): Promise<any>;
+
     googleSearch(
       query: string | string[],
       pagesPerQuery?: number,
       uule?: string,
       language?: string,
-      region?: string | null
-    ): Promise<any>;
+      region?: string | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    googleSearchNews(
+      query: string | string[],
+      pagesPerQuery?: number,
+      uule?: string,
+      tbs?: string,
+      language?: string,
+      region?: string | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
     googleMapsSearch(
       query: string | string[],
       limit?: number,
@@ -34,92 +63,105 @@ declare module 'outscraper' {
       region?: string | null,
       skip?: number,
       dropDuplicates?: boolean,
-      enrichment?: string | string[] | null
-    ): Promise<any>;
+      enrichment?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    googleMapsSearchV3(
+      query: string | string[],
+      limit?: number,
+      language?: string,
+      region?: string | null,
+      skip?: number,
+      dropDuplicates?: boolean,
+      enrichment?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    googleMapsDirections(
+      query: string | string[],
+      departureTime?: string | null,
+      finishTime?: string | null,
+      interval?: number,
+      travelMode?: string,
+      language?: string,
+      region?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
     googleMapsReviews(
       query: string | string[],
       reviewsLimit?: number,
+      reviewsQuery?: string | null,
       limit?: number,
       sort?: string,
-      skip?: number,
+      lastPaginationId?: string | null,
       start?: string | null,
       cutoff?: string | null,
       cutoffRating?: number | null,
       ignoreEmpty?: boolean,
+      source?: string,
       language?: string,
       region?: string | null,
-      reviewsQuery?: string | null,
-      lastPaginationId?: string | null,
-      asyncRequest?: boolean
-    ): Promise<any | AsyncResponse>;
-    emailsAndContacts(
-      query: string | string[],
-      preferredContacts?: string | string[] | null
-    ): Promise<any>;
-    phonesEnricher(query: string | string[]): Promise<any>;
-    companyInsights(
-      query: string | string[],
-      enrichments?: string | string[],
       fields?: string,
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
-    validateEmails(
-      query: string | string[],
-      asyncRequest?: boolean
-    ): Promise<any | AsyncResponse>;
+
     getGoogleMapsPhotos(
       query: string | string[],
-      options?: {
-        photosLimit?: number;
-        limit?: number;
-        tag?: string;
-        language?: string;
-        region?: string;
-        fields?: string;
-        async?: boolean;
-        ui?: boolean;
-        webhook?: string;
-      }
+      options?: GoogleMapsPhotosOptions
     ): Promise<any | AsyncResponse>;
-    trustpilot(
+
+    googlePlayReviews(
       query: string | string[],
-      enrichment?: string[] | [],
-      fields?: string,
-      asyncRequest?: boolean,
-      ui?: boolean,
-      webhook?: string
-    ): Promise<any | AsyncResponse>;
-    trustpilotSearch(
-      query: string | string[],
-      limit?: number,
-      skip?: number,
-      enrichment?: string[] | [],
-      fields?: string,
-      asyncRequest?: boolean,
-      ui?: boolean,
-      webhook?: string
-    ): Promise<any | AsyncResponse>;
-    trustpilotReviews(
-      query: string | string[],
-      limit?: number,
-      languages?: string,
+      reviewsLimit?: number,
       sort?: string,
       cutoff?: string | null,
-      fields?: string,
-      asyncRequest?: boolean,
-      ui?: boolean,
-      webhook?: string
-    ): Promise<any | AsyncResponse>;
-    youtubeComments(
-      query: string | string[],
-      perQuery?: number,
+      rating?: number | null,
       language?: string,
-      region?: string,
-      fields?: string,
-      asyncRequest?: boolean,
-      ui?: boolean,
-      webhook?: string
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
+
+    emailsAndContacts(
+      query: string | string[],
+      preferredContacts?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    phonesEnricher(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    amazonProducts(
+      query: string | string[],
+      limit?: number,
+      domain?: string,
+      postalCode?: string,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    amazonReviews(
+      query: string | string[],
+      limit?: number,
+      sort?: string,
+      filterByReviewer?: string,
+      filterByStar?: string,
+      domain?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    yelpSearch(
+      query: string | string[],
+      limit?: number,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
     yelpReviews(
       query: string | string[],
       limit?: number,
@@ -127,26 +169,120 @@ declare module 'outscraper' {
       sort?: string,
       cutoff?: string,
       fields?: string,
-      asyncRequest?: boolean,
-      ui?: boolean,
-      webhook?: string
+      asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
-    phoneIdentityFinder(query: string | string[]): Promise<any>;
-    addressScraper(query: string | string[]): Promise<any>;
-    reverseGeocoding(query: string | string[]): Promise<any>;
-    geocoding(query: string | string[]): Promise<any>;
+
+    tripadvisorReviews(
+      query: string | string[],
+      limit?: number,
+      cutoff?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    appStoreReviews(
+      query: string | string[],
+      limit?: number,
+      sort?: string,
+      cutoff?: string | null,
+      fields?: string,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    youtubeComments(
+      query: string | string[],
+      perQuery?: number,
+      language?: string,
+      region?: string,
+      fields?: string,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    g2Reviews(
+      query: string | string[],
+      limit?: number,
+      sort?: string,
+      cutoff?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    trustpilotReviews(
+      query: string | string[],
+      limit?: number,
+      languages?: string,
+      sort?: string,
+      cutoff?: string | null,
+      fields?: string,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    trustpilot(
+      query: string | string[],
+      enrichment?: string[],
+      fields?: string,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    trustpilotSearch(
+      query: string | string[],
+      limit?: number,
+      skip?: number,
+      enrichment?: string[],
+      fields?: string,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
     getGlassdoorReviews(
       query: string | string[],
       limit?: number,
       sort?: string,
-      cutoff?: string | null
-    ): Promise<any>;
-    appStoreReviews(
+      cutoff?: string | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    capterraReviews(
       query: string | string[],
-      perQuery?: number,
       limit?: number,
-      sort?: string
-    ): Promise<any>;
+      sort?: string,
+      cutoff?: string | null,
+      language?: string,
+      region?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    geocoding(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    reverseGeocoding(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    phoneIdentityFinder(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    addressScraper(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
+
+    companyInsights(
+      query: string | string[],
+      fields?: string,
+      asyncRequest?: boolean,
+      enrichments?: string | string[]
+    ): Promise<any | AsyncResponse>;
+
+    validateEmails(
+      query: string | string[],
+      asyncRequest?: boolean
+    ): Promise<any | AsyncResponse>;
   }
 }
 
