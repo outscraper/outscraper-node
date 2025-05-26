@@ -122,13 +122,13 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async googleMapsDirections(query, perQuery=100, departureTime = null, finishTime = null, interval = 60, travelMode = 'best', language = 'en', region = null, fields = null, asyncRequest = false) {
+  async googleMapsDirections(origin = '', destination = '', departureTime = null, finishTime = null, interval = null, travelMode = 'best', language = 'en', region = null, fields = null, asyncRequest = true) {
     const response = await this.getAPIRequest('/maps/directions', {
-      query: toArray(query),
-      perQuery: perQuery,
+      origin: toArray(origin),
+      destination: toArray(destination),
       departure_time: departureTime,
-      interval: interval,
       finish_time: finishTime,
+      interval: interval,
       travel_mode: travelMode,
       language: language,
       region: region,
@@ -232,12 +232,11 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async yelpSearch(query, limit = 100, fields = null, asyncRequest = false) {
+  async yelpSearch(query, limit = 100, asyncRequest = false) {
     const response = await this.getAPIRequest('/yelp-search', {
       query: toArray(query),
       limit: limit,
       async: asyncRequest,
-      fields: fields ? toArray(fields) : null,
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
@@ -255,13 +254,11 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async tripadvisorReviews(query, limit = 100, cutoff = null, fields = null, asyncRequest = false) {
-    const response = await this.getAPIRequest('/tripadvisor/reviews', {
+  async tripadvisorReviews(query, limit = 100, asyncRequest = false) {
+    const response = await this.getAPIRequest('/tripadvisor-reviews', {
       query: toArray(query),
       limit: limit,
-      cutoff: cutoff,
       async: asyncRequest,
-      fields: fields ? toArray(fields) : null,
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
@@ -290,7 +287,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async g2Reviews(query, limit = 100, sort = 'g2_default', cutoff = null, fields = null, asyncRequest = false) {
+  async g2Reviews(query, limit = 100, sort = '', cutoff = null, fields = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/g2/reviews', {
       query: toArray(query),
       limit: limit,
@@ -326,7 +323,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async capterraReviews(query, limit = 100, sort = 'MOST_HELPFUL', cutoff = null, language = 'en', region = null, fields = null, asyncRequest = false) {
+  async capterraReviews(query, limit = 100, sort = '', cutoff = null, language = 'en', region = null, fields = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/capterra-reviews', {
       query: toArray(query),
       limit: limit,
