@@ -79,11 +79,12 @@ declare module 'outscraper' {
     ): Promise<any | AsyncResponse>;
 
     googleMapsDirections(
-      query: string | string[],
-      departureTime?: string | null,
-      finishTime?: string | null,
+      origin: string | string[],
+      destination: string | string[],
+      departure_time?: string | null,
+      finish_time?: string | null,
       interval?: number,
-      travelMode?: string,
+      travel_mode?: string,
       language?: string,
       region?: string | null,
       fields?: string | string[] | null,
@@ -158,7 +159,6 @@ declare module 'outscraper' {
     yelpSearch(
       query: string | string[],
       limit?: number,
-      fields?: string | string[] | null,
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
 
@@ -175,8 +175,6 @@ declare module 'outscraper' {
     tripadvisorReviews(
       query: string | string[],
       limit?: number,
-      cutoff?: string | null,
-      fields?: string | string[] | null,
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
 
