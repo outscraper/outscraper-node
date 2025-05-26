@@ -2,7 +2,7 @@ export { };
 
 const Outscraper = require('./index');
 
-const outscraper = new Outscraper('YjlmNWVhODA4MTk0NGY2YjhkNGM5OTVjMWJlNmRmM2V8ZmI4NWNhNzZmZQ');
+const outscraper = new Outscraper('YOUR_API_KEY');
 
 async function testAllServices() {
   try {
