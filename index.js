@@ -408,6 +408,28 @@ class Outscraper {
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
+
+  async similarweb(query, fields = null, asyncRequest = false, ui = null, webhook = null) {
+    const response = await this.getAPIRequest('/similarweb', {
+      query: toArray(query),
+      fields: fields ? toArray(fields) : null,
+      async: asyncRequest,
+      ui: ui,
+      webhook: webhook,
+    });
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
+
+  async companyWebsitesFinder(query, fields = null, asyncRequest = false, ui = null, webhook = null) {
+    const response = await this.getAPIRequest('/company-website-finder', {
+      query: toArray(query),
+      fields: fields ? toArray(fields) : null,
+      async: asyncRequest,
+      ui: ui,
+      webhook: webhook,
+    });
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
 }
 
 module.exports = Outscraper;

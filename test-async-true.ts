@@ -93,6 +93,12 @@ async function testAllServices() {
     console.log('\nTesting appStoreReviews...');
     console.log(await outscraper.appStoreReviews('id686449807', 1, 'mosthelpful', null, '', true));
 
+    console.log('\nTesting similarweb...');
+    console.log(await outscraper.similarweb('apple.com', null, true, null, null));
+
+    console.log('\nTesting companyWebsitesFinder...');
+    console.log(await outscraper.companyWebsitesFinder('Apple Inc', null, true, null, null));
+
     console.log('\nAll tests completed!');
   } catch (error) {
     console.error('Error:', error);
