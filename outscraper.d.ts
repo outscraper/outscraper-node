@@ -281,6 +281,22 @@ declare module 'outscraper' {
       query: string | string[],
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
+
+    similarweb(
+      query: string | string[],
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      ui?: boolean | null,
+      webhook?: string | null
+    ): Promise<any | AsyncResponse>;
+
+    companyWebsitesFinder(
+      query: string | string[],
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      ui?: boolean | null,
+      webhook?: string | null
+    ): Promise<any | AsyncResponse>;
   }
 }
 
