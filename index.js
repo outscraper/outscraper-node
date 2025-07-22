@@ -430,6 +430,21 @@ class Outscraper {
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
+
+  async yellowpagesSearch(query, location = 'New York, NY', limit = 100, region = null, enrichment = null, fields = null, asyncRequest = true, ui = null, webhook = null) {
+    const response = await this.getAPIRequest('/yellowpages-search', {
+      query: toArray(query),
+      location: location,
+      limit: limit,
+      region: region,
+      enrichment: enrichment ? toArray(enrichment) : null,
+      fields: fields ? toArray(fields) : null,
+      async: asyncRequest,
+      ui: ui,
+      webhook: webhook,
+    });
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
 }
 
 module.exports = Outscraper;
