@@ -1,6 +1,6 @@
 const https = require('https');
 const querystring = require('querystring');
-const { toArray, removeEmpty } = require('./utils');
+const { toArray, removeEmpty, formatQueries } = require('./utils');
 
 class Outscraper {
   constructor(apiKey) {
@@ -122,10 +122,9 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async googleMapsDirections(origin = '', destination = '', departureTime = null, finishTime = null, interval = null, travelMode = 'best', language = 'en', region = null, fields = null, asyncRequest = true) {
+  async googleMapsDirections(query, departureTime = null, finishTime = null, interval = null, travelMode = 'best', language = 'en', region = null, fields = null, asyncRequest = true) {
     const response = await this.getAPIRequest('/maps/directions', {
-      origin: toArray(origin),
-      destination: toArray(destination),
+      query: query ? formatQueries(query) : null,
       departure_time: departureTime,
       finish_time: finishTime,
       interval: interval,
