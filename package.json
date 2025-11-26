@@ -33,5 +33,6 @@
   "devDependencies": {
     "@types/node": "^22.13.16",
     "typescript": "^5.8.2"
-  }
+  },
+  "types": "index.d.ts"
 }
