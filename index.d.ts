@@ -125,6 +125,19 @@ declare module 'outscraper' {
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
 
+    contactsAndLeads(
+      query: string | string[],
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      preferredContacts?: string | string[] | null,
+      contactsPerCompany?: number,
+      emailsPerContact?: number,
+      skipContacts?: number,
+      generalEmails?: boolean,
+      ui?: boolean,
+      webhook?: string | null
+  ): Promise<any | AsyncResponse>;
+
     emailsAndContacts(
       query: string | string[],
       preferredContacts?: string | string[] | null,

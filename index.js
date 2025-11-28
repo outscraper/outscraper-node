@@ -188,6 +188,33 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
+  async contactsAndLeads(
+    query,
+    fields = null,
+    asyncRequest = true,
+    preferredContacts = null,
+    contactsPerCompany = 3,
+    emailsPerContact = 1,
+    skipContacts = 0,
+    generalEmails = false,
+    ui = false,
+    webhook = null
+  ) {
+    const response = await this.getAPIRequest('/contacts-and-leads', {
+      query: toArray(query),
+      fields: fields ? toArray(fields) : null,
+      async: asyncRequest,
+      preferred_contacts: preferredContacts ? toArray(preferredContacts) : null,
+      contacts_per_company: contactsPerCompany,
+      emails_per_contact: emailsPerContact,
+      skip_contacts: skipContacts,
+      general_emails: generalEmails,
+      ui,
+      webhook,
+    });
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
+
   async emailsAndContacts(query, preferredContacts = null, asyncRequest = false) {
     const response = await this.getAPIRequest('/emails-and-contacts', {
       query: toArray(query),
