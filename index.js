@@ -1,3 +1,4 @@
+const { Buffer } = require('buffer');
 const https = require('https');
 const querystring = require('querystring');
 const { toArray, removeEmpty, formatQueries } = require('./utils');
@@ -33,6 +34,41 @@ class Outscraper {
         console.log('err', err);
       });
 
+      req.end();
+    });
+  }
+
+  postAPIRequest(path, parameters) {
+    return new Promise((resolve, reject) => {
+      const payload = JSON.stringify(removeEmpty(parameters || {}));
+
+      const req = https.request({
+        hostname: this.apiHostname,
+        port: '443',
+        path,
+        method: 'POST',
+        headers: {
+          'X-API-KEY': this.apiKey,
+          'client': 'Node SDK',
+          'content-type': 'application/json',
+          'content-length': Buffer.byteLength(payload),
+        }
+      }, (res) => {
+        res.setEncoding('utf8');
+        let responseBody = '';
+
+        res.on('data', (chunk) => {
+          responseBody += chunk;
+        });
+
+        res.on('end', () => {
+          resolve(JSON.parse(responseBody));
+        });
+      });
+
+      req.on('error', (err) => reject(err));
+
+      req.write(payload);
       req.end();
     });
   }
@@ -469,6 +505,76 @@ class Outscraper {
       ui: ui,
       webhook: webhook,
     });
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
+
+  async businessesSearch(
+    filters = {},
+    limit = 10,
+    includeTotal = false,
+    cursor = null,
+    fields = null,
+    asyncRequest = false,
+    ui = false,
+    webhook = null
+  ) {
+    const payload = {
+      filters: filters || {},
+      limit,
+      include_total: includeTotal,
+      cursor,
+      fields: fields ? toArray(fields) : null,
+      async: asyncRequest,
+      ui,
+      webhook,
+    };
+    const response = await this.postAPIRequest('/businesses', payload);
+    return this.handleAsyncResponse(response, asyncRequest);
+  }
+
+  async *businessesIterSearch(filters = {}, limit = 10, fields = null, includeTotal = false) {
+    let cursor = null;
+    while (true) {
+      const response = await this.businessesSearch(
+          filters,
+          limit,
+          includeTotal,
+          cursor,
+          fields,
+          false
+      );
+      const items = Array.isArray(response.items) ? response.items : [];
+      for (const item of items) {
+        yield item;
+      }
+
+      if (!response['has_more'] || !response['next_cursor'] || items.length === 0) {
+        break;
+      }
+      cursor = response['next_cursor'];
+    }
+  }
+
+  async businessesGetDetails(
+    businessId,
+    fields = null,
+    asyncRequest = false,
+    ui = false,
+    webhook = null
+  ) {
+    if (!businessId) {
+      throw new Error('businessId is required');
+    }
+    const params = {
+      fields: Array.isArray(fields) ? fields.join(',') : fields,
+      async: asyncRequest,
+      ui,
+      webhook,
+    };
+  const response = await this.getAPIRequest(
+    `/businesses/${encodeURIComponent(String(businessId))}`,
+      params
+    );
     return this.handleAsyncResponse(response, asyncRequest);
   }
 }

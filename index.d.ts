@@ -32,6 +32,7 @@ declare module 'outscraper' {
   export class Outscraper {
     constructor(apiKey: string);
     getAPIRequest(path: string, parameters: RequestParams): Promise<any>;
+    postAPIRequest(path: string, parameters: RequestParams): Promise<any>;
     handleAsyncResponse(response: any, asyncRequest: boolean): any | AsyncResponse;
 
     getRequestsHistory(type?: string): Promise<any>;
@@ -308,6 +309,32 @@ declare module 'outscraper' {
       fields?: string | string[] | null,
       asyncRequest?: boolean,
       ui?: boolean | null,
+      webhook?: string | null
+    ): Promise<any | AsyncResponse>;
+
+    businessesSearch(
+      filters?: RequestParams | null,
+      limit?: number,
+      includeTotal?: boolean,
+      cursor?: string | null,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      ui?: boolean,
+      webhook?: string | null
+    ): Promise<any | AsyncResponse>;
+
+    businessesIterSearch(
+      filters?: RequestParams | null,
+      limit?: number,
+      fields?: string | string[] | null,
+      includeTotal?: boolean
+    ): AsyncIterableIterator<any>;
+
+    businessesGetDetails(
+      businessId: string,
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      ui?: boolean,
       webhook?: string | null
     ): Promise<any | AsyncResponse>;
   }
