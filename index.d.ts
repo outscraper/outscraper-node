@@ -330,7 +330,7 @@ declare module 'outscraper' {
       includeTotal?: boolean
     ): AsyncIterableIterator<any>;
 
-    businessesGetDetails(
+    businessesGet(
       businessId: string,
       fields?: string | string[] | null,
       asyncRequest?: boolean,

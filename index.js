@@ -555,7 +555,7 @@ class Outscraper {
     }
   }
 
-  async businessesGetDetails(
+  async businessesGet(
     businessId,
     fields = null,
     asyncRequest = false,
