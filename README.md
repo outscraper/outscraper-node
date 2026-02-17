@@ -24,7 +24,7 @@ import Outscraper from 'outscraper';
 let client = new Outscraper('SECRET_API_KEY');
 
 ```
-[Link to the profile page to create the API key](https://app.outscraper.com/profile)
+[Link to the account page to create the API key](https://app.outscraper.com/account/api)
 
 ## Usage
 
