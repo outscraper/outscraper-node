@@ -320,7 +320,8 @@ declare module 'outscraper' {
       fields?: string | string[] | null,
       asyncRequest?: boolean,
       ui?: boolean,
-      webhook?: string | null
+      webhook?: string | null,
+      query?: string | null
     ): Promise<any | AsyncResponse>;
 
     businessesIterSearch(

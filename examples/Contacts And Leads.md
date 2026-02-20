@@ -1,4 +1,4 @@
-# Emails And Contacts Scraper With Python
+# Emails And Contacts Scraper With Node.js
 
 Allows finding email addresses, social links, and phones from domains via [Outscraper API](https://app.outscraper.com/api-docs#tag/Email-Related/paths/~1contacts-and-leads/get).
 

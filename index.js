@@ -516,7 +516,8 @@ class Outscraper {
     fields = null,
     asyncRequest = false,
     ui = false,
-    webhook = null
+    webhook = null,
+    query = null
   ) {
     const payload = {
       filters: filters || {},
@@ -524,6 +525,7 @@ class Outscraper {
       include_total: includeTotal,
       cursor,
       fields: fields ? toArray(fields) : null,
+      query: query ? String(query) : null,
       async: asyncRequest,
       ui,
       webhook,
