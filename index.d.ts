@@ -322,9 +322,7 @@ declare module 'outscraper' {
       ui?: boolean,
       webhook?: string | null,
       query?: string | null,
-      enrichments?: string | string[] | null,
-      contactsPerCompany?: number | null,
-      emailsPerContact?: number | null
+      enrichments?: RequestParams | null
     ): Promise<any | AsyncResponse>;
 
     businessesIterSearch(
@@ -332,9 +330,8 @@ declare module 'outscraper' {
       limit?: number,
       fields?: string | string[] | null,
       includeTotal?: boolean,
-      enrichments?: string | string[] | null,
-      contactsPerCompany?: number | null,
-      emailsPerContact?: number | null
+      query?: string | null,
+      enrichments?: RequestParams | null
     ): AsyncIterableIterator<any>;
 
     businessesGet(

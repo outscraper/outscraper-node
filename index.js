@@ -518,33 +518,16 @@ class Outscraper {
     ui = false,
     webhook = null,
     query = null,
-    enrichments = null,
-    contactsPerCompany = null,
-    emailsPerContact = null
+    enrichments = null
   ) {
-    if (contactsPerCompany !== null && contactsPerCompany < 1) {
-      throw new Error('contacts_per_company must be >= 1');
-    }
-    if (emailsPerContact !== null && emailsPerContact < 1) {
-      throw new Error('emails_per_contact must be >= 1');
-    }
-
-    const enrichmentsPayload = enrichments ? toArray(enrichments) : [];
-    const hasContactsNLeads = enrichmentsPayload.includes('contacts_n_leads');
-    if (!hasContactsNLeads && (contactsPerCompany !== null || emailsPerContact !== null)) {
-      throw new Error('contacts_per_company and emails_per_contact require enrichments to include "contacts_n_leads"');
-    }
-
     const payload = {
       filters: filters || {},
       limit,
       include_total: includeTotal,
       cursor,
       fields: fields ? toArray(fields) : null,
-      enrichments: enrichmentsPayload.length ? enrichmentsPayload : null,
-      contacts_per_company: hasContactsNLeads ? (contactsPerCompany !== null ? contactsPerCompany : 3) : null,
-      emails_per_contact: hasContactsNLeads ? (emailsPerContact !== null ? emailsPerContact : 1) : null,
-      query: query ? String(query) : null,
+      query,
+      enrichments,
       async: asyncRequest,
       ui,
       webhook,
@@ -553,15 +536,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async *businessesIterSearch(
-    filters = {},
-    limit = 10,
-    fields = null,
-    includeTotal = false,
-    enrichments = null,
-    contactsPerCompany = null,
-    emailsPerContact = null
-  ) {
+  async *businessesIterSearch(filters = {}, limit = 10, fields = null, includeTotal = false, query = null, enrichments = null) {
     let cursor = null;
     while (true) {
       const response = await this.businessesSearch(
@@ -573,10 +548,8 @@ class Outscraper {
           false,
           false,
           null,
-          null,
-          enrichments,
-          contactsPerCompany,
-          emailsPerContact
+          query,
+          enrichments
       );
       const items = Array.isArray(response.items) ? response.items : [];
       for (const item of items) {
