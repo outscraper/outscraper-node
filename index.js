@@ -517,7 +517,8 @@ class Outscraper {
     asyncRequest = false,
     ui = false,
     webhook = null,
-    query = null
+    query = null,
+    enrichments = null
   ) {
     const payload = {
       filters: filters || {},
@@ -525,7 +526,8 @@ class Outscraper {
       include_total: includeTotal,
       cursor,
       fields: fields ? toArray(fields) : null,
-      query: query ? String(query) : null,
+      query,
+      enrichments,
       async: asyncRequest,
       ui,
       webhook,
@@ -534,7 +536,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async *businessesIterSearch(filters = {}, limit = 10, fields = null, includeTotal = false) {
+  async *businessesIterSearch(filters = {}, limit = 10, fields = null, includeTotal = false, query = null, enrichments = null) {
     let cursor = null;
     while (true) {
       const response = await this.businessesSearch(
@@ -543,7 +545,11 @@ class Outscraper {
           includeTotal,
           cursor,
           fields,
-          false
+          false,
+          false,
+          null,
+          query,
+          enrichments
       );
       const items = Array.isArray(response.items) ? response.items : [];
       for (const item of items) {
