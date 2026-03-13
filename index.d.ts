@@ -321,14 +321,17 @@ declare module 'outscraper' {
       asyncRequest?: boolean,
       ui?: boolean,
       webhook?: string | null,
-      query?: string | null
+      query?: string | null,
+      enrichments?: RequestParams | null
     ): Promise<any | AsyncResponse>;
 
     businessesIterSearch(
       filters?: RequestParams | null,
       limit?: number,
       fields?: string | string[] | null,
-      includeTotal?: boolean
+      includeTotal?: boolean,
+      query?: string | null,
+      enrichments?: RequestParams | null
     ): AsyncIterableIterator<any>;
 
     businessesGet(
