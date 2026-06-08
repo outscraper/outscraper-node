@@ -224,7 +224,7 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async contactsAndLeads(
+  async leadsAndContacts(
     query,
     fields = null,
     asyncRequest = true,
@@ -249,6 +249,32 @@ class Outscraper {
       webhook,
     });
     return this.handleAsyncResponse(response, asyncRequest);
+  }
+
+  async contactsAndLeads(
+    query,
+    fields = null,
+    asyncRequest = true,
+    preferredContacts = null,
+    contactsPerCompany = 3,
+    emailsPerContact = 1,
+    skipContacts = 0,
+    generalEmails = false,
+    ui = false,
+    webhook = null
+  ) {
+    return this.leadsAndContacts(
+      query,
+      fields,
+      asyncRequest,
+      preferredContacts,
+      contactsPerCompany,
+      emailsPerContact,
+      skipContacts,
+      generalEmails,
+      ui,
+      webhook
+    );
   }
 
   async emailsAndContacts(query, preferredContacts = null, asyncRequest = false) {
