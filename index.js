@@ -236,7 +236,7 @@ class Outscraper {
     ui = false,
     webhook = null
   ) {
-    const response = await this.getAPIRequest('/contacts-and-leads', {
+    const response = await this.getAPIRequest('/leads-and-contacts', {
       query: toArray(query),
       fields: fields ? toArray(fields) : null,
       async: asyncRequest,
