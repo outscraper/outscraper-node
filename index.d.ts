@@ -126,6 +126,19 @@ declare module 'outscraper' {
       asyncRequest?: boolean
     ): Promise<any | AsyncResponse>;
 
+    leadsAndContacts(
+      query: string | string[],
+      fields?: string | string[] | null,
+      asyncRequest?: boolean,
+      preferredContacts?: string | string[] | null,
+      contactsPerCompany?: number,
+      emailsPerContact?: number,
+      skipContacts?: number,
+      generalEmails?: boolean,
+      ui?: boolean,
+      webhook?: string | null
+    ): Promise<any | AsyncResponse>;
+
     contactsAndLeads(
       query: string | string[],
       fields?: string | string[] | null,
@@ -137,7 +150,7 @@ declare module 'outscraper' {
       generalEmails?: boolean,
       ui?: boolean,
       webhook?: string | null
-  ): Promise<any | AsyncResponse>;
+    ): Promise<any | AsyncResponse>;
 
     emailsAndContacts(
       query: string | string[],
