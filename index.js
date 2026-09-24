@@ -342,11 +342,12 @@ class Outscraper {
     return this.handleAsyncResponse(response, asyncRequest);
   }
 
-  async tripadvisorReviews(query, limit = 100, asyncRequest = false) {
+  async tripadvisorReviews(query, limit = 100, asyncRequest = false, language = 'default') {
     const response = await this.getAPIRequest('/tripadvisor-reviews', {
       query: toArray(query),
       limit: limit,
       async: asyncRequest,
+      language,
     });
     return this.handleAsyncResponse(response, asyncRequest);
   }
