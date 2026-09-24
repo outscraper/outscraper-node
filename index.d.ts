@@ -202,7 +202,8 @@ declare module 'outscraper' {
     tripadvisorReviews(
       query: string | string[],
       limit?: number,
-      asyncRequest?: boolean
+      asyncRequest?: boolean,
+      language?: string
     ): Promise<any | AsyncResponse>;
 
     appStoreReviews(
